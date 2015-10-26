@@ -1,0 +1,19 @@
+{
+    "name": "jihel/library-rbtree",
+    "description": "A library to implement Red Black Tree",
+    "authors": [
+        {
+            "name": "Joseph Lemoine",
+            "email": "lemoine.joseph@gmail.com"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jihel\\Library\\RBTree\\": "src"
+        }
+    }
+}
