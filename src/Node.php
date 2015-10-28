@@ -196,7 +196,7 @@ class Node
     }
 
     /**
-     * @param boolean $position
+     * @param boolean|null $position
      * @return $this
      */
     public function setPosition($position)

@@ -28,6 +28,14 @@ class Tree
     protected $root;
 
     /**
+     * @param Node|null $node
+     */
+    protected function setRoot(Node $node = null)
+    {
+        $this->root = null !== $node ? $node->setPosition(null) : null;
+    }
+
+    /**
      * @return Node
      */
     public function getRoot()
@@ -40,7 +48,7 @@ class Tree
      */
     public function __construct(Node $node = null)
     {
-        $this->root = $node;
+        $this->setRoot($node);
     }
 
     /**
@@ -53,7 +61,7 @@ class Tree
     {
         // If root is null, set as root
         if (null === $this->root) {
-            $this->root = $node;
+            $this->setRoot($node);
         // Else Find the new parent
         } else {
             $insertNode = $this->recursiveSearchClosestNode($this->root, $node->getId());
@@ -178,7 +186,7 @@ class Tree
 
         // Rotation done, it's possible the root have changed
         if (null === $tmp->getParent()) {
-            $this->root = $tmp;
+            $this->setRoot($tmp);
         }
 
         return $this;
@@ -233,6 +241,28 @@ class Tree
     }
 
     /**
+     * Alias method
+     *
+     * @param Node $node
+     * @return Node
+     */
+    public function findPredecessor(Node $node)
+    {
+        return $this->findRelative($node, Node::POSITION_LEFT);
+    }
+
+    /**
+     * Alias method
+     *
+     * @param Node $node
+     * @return Node
+     */
+    public function findSuccessor(Node $node)
+    {
+        return $this->findRelative($node, Node::POSITION_RIGHT);
+    }
+
+    /**
      * Remove the node from the tree
      *
      * @param Node $node
@@ -253,13 +283,35 @@ class Tree
             return $this;
         }
 
-        // Second case, the node have one or two children.
         // Move children the way of node upward if possible, else the other way
-        $tmp = $this->findRelative($node, $node->getPosition()) ?: $this->findRelative($node, -$node->getPosition());
+        $direction = null === $node->getPosition() ? Node::POSITION_LEFT : $node->getPosition();
+        $tmp = $this->findRelative($node, $direction) ?: $this->findRelative($node, -$direction);
+
+        // If closest is direct child, attache opposite child to tmp
+        if ($tmp === $node->getChild($tmp->getPosition())) {
+            $tmp->setChild(-$tmp->getPosition(), $node->getChild(-$tmp->getPosition()));
+        } else {
+            if (null !== $tmp->getParent()) {
+                $tmp->getParent()->setChild($tmp->getPosition(), $tmp->getChild($tmp->getPosition()));
+            }
+            $tmp
+                ->setChild(Node::POSITION_LEFT, $node->getChild(Node::POSITION_LEFT))
+                ->setChild(Node::POSITION_RIGHT, $node->getChild(Node::POSITION_RIGHT))
+            ;
+        }
+
         // Attach temp node to node's parent
         $tmp->setParent($node->getParent());
-        $node->getParent()->setChild($node->getPosition(), $tmp);
-        // Temp is black, so node is red, so we have two black consecutive and that's not normal
+
+
+        // Set parent or root
+        if (null !== $node->getParent()) {
+            $node->getParent()->setChild($node->getPosition(), $tmp);
+        } else {
+            $this->setRoot($tmp);
+        }
+        
+        // Temp is black, so we have two black consecutive and that's not normal
         if (Node::COLOR_BLACK === $tmp->getColor()) {
             $this->recursiveSortNode($tmp);
         }
@@ -268,6 +320,8 @@ class Tree
         $node
             ->setPosition(null)
             ->setParent(null)
+            ->setChild(Node::POSITION_LEFT, null)
+            ->setChild(Node::POSITION_RIGHT, null)
         ;
 
         return $this;
