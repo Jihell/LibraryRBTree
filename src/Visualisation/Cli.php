@@ -4,12 +4,17 @@
  * @author Joseph LEMOINE <j.lemoine@ludi.cat>
  * @link https://ludi.cat
  */
-namespace Jihel\Library\RBTree;
+namespace Jihel\Library\RBTree\Visualisation;
+
+use Jihel\Library\RBTree\Model\NodeInterface as Node;
+use Jihel\Library\RBTree\Model\TreeInterface as Tree;
 
 /**
- * Class CLIVisualisation
+ * Class Cli
+ *
+ * Provide a simple cli visualisation
  */
-class CLIVisualisation
+class Cli
 {
     /**
      * Simple recursive visualisation.
@@ -24,7 +29,8 @@ class CLIVisualisation
 
     /**
      * Simple recursive visualisation.
-     * The first node should be the root
+     * The first node should be the root.
+     * Colors are for linux console, sorry windows guys :p
      *
      * @param Node $node
      * @param string $indent
@@ -32,22 +38,21 @@ class CLIVisualisation
      */
     protected function infixeRender(Node $node, $indent = '')
     {
-        $maxIndent = '';
         if (!$node->isLeaf() && $node->haveChild(Node::POSITION_LEFT)) {
             // Show left side first
-            $maxIndent = $this->infixeRender($node->getChild(Node::POSITION_LEFT), $indent.'  ');
+            $this->infixeRender($node->getChild(Node::POSITION_LEFT), $indent.'  ');
         }
 
-        echo sprintf('%s#%d', $maxIndent, $node->getId());
+        echo sprintf('%s%s#%d', $indent, $node->getPosition() == 0 ? '-' : ($node->getPosition() > 0 ? '\\': '/'), $node->getId());
         echo ' L#'.($node->haveChild(Node::POSITION_LEFT) ? $node->getChild(Node::POSITION_LEFT)->getId() : '-');
         echo ' R#'.($node->haveChild(Node::POSITION_RIGHT) ? $node->getChild(Node::POSITION_RIGHT)->getId() : '-');
         echo ' P#'.(null !== $node->getParent() ? $node->getParent()->getId() : '-');
-        echo ' C:'.(Node::COLOR_RED === $node->getColor() ? 'RED' : 'BLACK');
+        echo ' C:'.(Node::COLOR_RED === $node->getColor() ? "\033[0;31mRED\033[0m" : "\033[0;32mBLACK\033[0m");
         echo PHP_EOL;
 
         if (!$node->isLeaf() && $node->haveChild(Node::POSITION_RIGHT)) {
             // Show left side first
-            $this->infixeRender($node->getChild(Node::POSITION_RIGHT), $indent);
+            $this->infixeRender($node->getChild(Node::POSITION_RIGHT), $indent.'  ');
         }
     }
 }

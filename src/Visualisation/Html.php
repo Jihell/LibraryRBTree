@@ -4,12 +4,17 @@
  * @author Joseph LEMOINE <j.lemoine@ludi.cat>
  * @link https://ludi.cat
  */
-namespace Jihel\Library\RBTree;
+namespace Jihel\Library\RBTree\Visualisation;
+
+use Jihel\Library\RBTree\Node;
+use Jihel\Library\RBTree\Tree;
 
 /**
- * Class CLIVisualisation
+ * Class Html
+ *
+ * Quick and dirty html visualisation
  */
-class HTMLVisualisation
+class Html
 {
     /**
      * Simple recursive visualisation.
