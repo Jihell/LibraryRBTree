@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <style type="text/css">
+        .node {
+            border: 1px solid #0f0;
+            border-radius: 50px;
+            height: 90px;
+            width: 90px;
+            padding: 10px;
+            text-align: center;
+        }
+        .spacer {
+            height: 100px;
+        }
+        .black {
+            border-color: #000;
+        }
+        .red {
+            border-color: #F00;
+        }
+        .leaf {
+            background: #eee2c1;
+        }
+        .top, .bottom {
+        height: 20px;
+        }
+        .left, .right {
+        display: inline-block;
+        }
+        .parent, .root {
+            border: 1px solid;
+            height: 24px;
+            width: 24px;
+            padding: 2px;
+            border-radius: 12px;
+            text-align: center;
+            display: inline-block;
+        }
+        .parent, .root, .glyphicon-remove {
+        color: #999;
+        }
+        .parent {
+            border-color: #ccc;
+            background: #eee;
+        }
+        .root {
+            border-color: #aad;
+            background: #ccf;
+            color: #aad;
+        }
+        </style>
+    </head>
+    <body>
+        <table class="table">
+            <tr>
+        <td><div class="spacer"></div><table class="table"><tr><td><div class="spacer"></div><table class="table"><tr><td><div class="spacer"></div><table class="table"><tr><td><div class="node red leaf"><div class="parent">10</div><div class="top">#5 (5)</div>
+            <div class="bottom"><span class="glyphicon glyphicon-leaf"></span></div></div></td></tr></table></td><td><div class="node black"><div class="parent">40</div><div class="top">#10 (10)</div>
+            <div class="bottom"><div class="left">5<</div>
+            <div class="right">><span class="glyphicon glyphicon-remove"></span></div></div></div></td></tr></table></td><td><div class="node black"><div class="parent">55</div><div class="top">#40 (40)</div>
+            <div class="bottom"><div class="left">10<</div>
+            <div class="right">>50</div></div></div></td><td><div class="spacer"></div><table class="table"><tr><td><div class="node black leaf"><div class="parent">40</div><div class="top">#50 (50)</div>
+            <div class="bottom"><span class="glyphicon glyphicon-leaf"></span></div></div></td></tr></table></td></tr></table></td><td><div class="node black"><div class="root">
+<span class="glyphicon glyphicon-home"></span>
+</div><div class="top">#55 (55)</div>
+            <div class="bottom"><div class="left">40<</div>
+            <div class="right">>80</div></div></div></td><td><div class="spacer"></div><table class="table"><tr><td><div class="spacer"></div><table class="table"><tr><td><div class="node black leaf"><div class="parent">80</div><div class="top">#65 (65)</div>
+            <div class="bottom"><span class="glyphicon glyphicon-leaf"></span></div></div></td></tr></table></td><td><div class="node black"><div class="parent">55</div><div class="top">#80 (80)</div>
+            <div class="bottom"><div class="left">65<</div>
+            <div class="right">>85</div></div></div></td><td><div class="spacer"></div><table class="table"><tr><td><div class="node black"><div class="parent">80</div><div class="top">#85 (85)</div>
+            <div class="bottom"><div class="left"><span class="glyphicon glyphicon-remove"></span><</div>
+            <div class="right">>90</div></div></div></td><td><div class="spacer"></div><table class="table"><tr><td><div class="node red leaf"><div class="parent">85</div><div class="top">#90 (90)</div>
+            <div class="bottom"><span class="glyphicon glyphicon-leaf"></span></div></div></td></tr></table></td></tr></table></td></tr></table></td>
+            </tr>
+        </table>
+    </body>
+</html>
