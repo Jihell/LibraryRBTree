@@ -27,4 +27,26 @@ class Tree extends Model\AbstractTree
         }
         return $idA < $idB ? 1 : -1;
     }
+    
+    public function getMin(Model\NodeInterface $node)
+    {
+        if (null === $node) {
+            $node = $this->root;
+        }
+        while ($node and $node->haveChild(Node::POSITION_LEFT)) {
+            $node = $node->getChild(Node::POSITION_LEFT);
+        }
+        return $node;
+    }
+
+    public function getMax(Model\NodeInterface $node)
+    {
+        if (null === $node) {
+            $node = $this->root;
+        }
+        while ($node and $node->haveChild(Node::POSITION_RIGHT)) {
+            $node = $node->getChild(Node::POSITION_RIGHT);
+        }
+        return $node;
+    }
 }

@@ -115,7 +115,7 @@ abstract class AbstractTree implements TreeInterface
                 }
                 return $this->insertSort($grandParent);
             }
-        // Second case, both parent and grand parent are on the same side
+            // Second case, both parent and grand parent are on the same side
         // Rotate the parent to grand parent place
         } else {
             // If uncle and parent are red, set both black
@@ -179,7 +179,7 @@ abstract class AbstractTree implements TreeInterface
         $tmp->setParent($node->getParent());
         // If it's not the root, set parent's child
         if (null !== $node->getParent()) {
-            $node->getParent()->setChild(($toPosition === $node->getPosition() ? 1 : -1 )* $toPosition, $tmp);
+            $node->getParent()->setChild(($toPosition === $node->getPosition() ? 1 : -1)* $toPosition, $tmp);
         }
         $tmp->setChild($toPosition, $node);
         $node->setParent($tmp);
@@ -205,6 +205,9 @@ abstract class AbstractTree implements TreeInterface
         // Initialize if first iteration
         if (null === $node) {
             $node = $this->root;
+            if ($node === null) {
+                return false;
+            }
         }
 
         // If the id is equal, it's our match !
@@ -214,7 +217,7 @@ abstract class AbstractTree implements TreeInterface
         }
 
         // Else if it's a nil, return false, else recursion
-        return $node->isLeaf() ? false : $this->find($id, $node->getChild($position));
+        return $node->haveChild($position) ? $this->find($id, $node->getChild($position)) : false;
     }
 
     /**
@@ -274,7 +277,9 @@ abstract class AbstractTree implements TreeInterface
         if (!$node->haveChild(Node::POSITION_LEFT) || !$node->haveChild(Node::POSITION_RIGHT)) {
             $tmp = $node;
         } else {
-            $tmp = $this->findRelative($node, null === $node->getPosition() ?
+            $tmp = $this->findRelative(
+                $node,
+                null === $node->getPosition() ?
                   Node::POSITION_RIGHT : $node->getPosition()
             );
         }
@@ -287,7 +292,7 @@ abstract class AbstractTree implements TreeInterface
 
         if (null === $node->getParent()) {
             $this->root = $alt;
-        } elseif(null !== $tmp->getParent()) {
+        } elseif (null !== $tmp->getParent()) {
             $tmp->getParent()->setChild($tmp->getPosition(), $alt);
         }
 
@@ -403,7 +408,7 @@ abstract class AbstractTree implements TreeInterface
             $out[] = $closest;
         }
 
-        while(true) {
+        while (true) {
             // Get next node after $closest
             $nextNode = $this->findRelative($closest, Node::POSITION_RIGHT);
             if (null !== $nextNode // Not an end
@@ -461,5 +466,5 @@ abstract class AbstractTree implements TreeInterface
      * @param mixed $idB
      * @return bool
      */
-    protected abstract function compare($idA, $idB);
+    abstract protected function compare($idA, $idB);
 }
