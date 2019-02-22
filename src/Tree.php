@@ -28,7 +28,7 @@ class Tree extends Model\AbstractTree
         return $idA < $idB ? 1 : -1;
     }
     
-    public function getMin(Model\NodeInterface $node)
+    public function getMin(?Model\NodeInterface $node = null)
     {
         if (null === $node) {
             $node = $this->root;
@@ -39,7 +39,7 @@ class Tree extends Model\AbstractTree
         return $node;
     }
 
-    public function getMax(Model\NodeInterface $node)
+    public function getMax(?Model\NodeInterface $node = null)
     {
         if (null === $node) {
             $node = $this->root;
